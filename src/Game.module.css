@@ -1,0 +1,16 @@
+.imageContainer {
+
+}
+
+.image {
+  object-fit: contain;
+  margin-top: 2.5vw;
+  width: 95vw;
+}
+
+#selector {
+  display: none;
+  height: 50px;
+  width: 50px;
+  background-color: pink;
+}
