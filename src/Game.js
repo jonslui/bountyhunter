@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import styles from './Game.module.css'
+import styles from './Game.module.css';
+import Header from './components/Header';
 
 const Game = (props) => {
   const [sourceImage, setSourceImage] = useState();
@@ -13,18 +14,18 @@ const Game = (props) => {
         targets: [
           {
             name: 'Bowser',
-            x: 907,
-            y: 1040,
+            x: 900,
+            y: 1011,
           },
           {
-            name: 'Jake',
+            name: 'Finn and Jake',
             x: 278,
             y: 1387,
           },
           {
-            name: 'Tottoro',
-            x: 1365,
-            y: 1484,
+            name: 'Guts',
+            x: 919,
+            y: 2453,
           }
         ],
       }
@@ -62,8 +63,9 @@ const Game = (props) => {
     choices.style.position = 'absolute';
   }
 
-  function onChoiceSelection(){
+  function onChoiceSelection(id){
     console.log('Selected Coord: ' + selectedCoords);
+    selectorContains(id);
   }
 
 
@@ -82,17 +84,34 @@ const Game = (props) => {
     return [(x - browserImage.xOffset) * widthConvertor, (y - browserImage.yOffset) * heightConvertor];
   }
 
-  function selectorContains(character, clickedCoords){
+  function selectorContains(id){
+    if (selectedCoords[0] >= (sourceImage.targets[id].x - 50) 
+      && selectedCoords[0] <= (sourceImage.targets[id].x + 50)
+      && selectedCoords[1] >= (sourceImage.targets[id].y - 50)
+      && selectedCoords[1] <= (sourceImage.targets[id].y) + 50){
 
+      console.log(sourceImage.targets[id].name + ' hit!');
+    }
   }
 
 
   return (
-    <div>
+    <div>   
+      <Header />
+      
+      <div>
+        Targets:
+          <div>
+            <img className = {styles.characterImage} src = '/assets/Bowser.jpeg' alt = 'Character Image' />
+            <img className = {styles.characterImage} src = '/assets/Finn-and-Jake.jpeg' alt = 'Character Image' />
+            <img className = {styles.characterImage} src = '/assets/Guts.jpeg' alt = 'Character Image' />
+          </div>
+      </div>
+
       <div className = {styles.imageContainer}>
         <img 
             id = {styles.image}
-            src = './assets/universe-113.jpeg' 
+            src = '/assets/universe-113.jpeg' 
             alt = 'Universe 113'
             onClick = {(event) => {
               onSelect(event);
@@ -105,11 +124,16 @@ const Game = (props) => {
           }}
         />
 
-        <div id = {styles.targetChoices}>
-          <input className = 'choice' type = 'submit' value = 'Choice 1' onClick = {() => {onChoiceSelection();}}/>
-          <input className = 'choice' type = 'submit' value = 'Choice 2' onClick = {() => {onChoiceSelection();}}/>
-          <input className = 'choice' type = 'submit' value = 'Choice 3' onClick = {() => {onChoiceSelection();}}/>
-        </div>
+        {
+          sourceImage ? (
+            <div id = {styles.targetChoices}>
+              <input className = 'choice' type = 'submit' value = {sourceImage.targets[0].name} onClick = {() => {onChoiceSelection(0);}}/>
+              <input className = 'choice' type = 'submit' value = {sourceImage.targets[1].name} onClick = {() => {onChoiceSelection(1);}}/>
+              <input className = 'choice' type = 'submit' value = {sourceImage.targets[2].name} onClick = {() => {onChoiceSelection(2);}}/>
+            </div>
+          ) : null
+        }
+          
       </div>
     </div>
     

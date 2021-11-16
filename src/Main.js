@@ -1,18 +1,17 @@
 import React from 'react';
 import LevelSelectTile from './components/LevelSelectTile';
+import Header from './components/Header';
 import styles from './Main.module.css';
-import Game from './Game';
 
 const Main = () => {
-
   return (
-    <div className = { styles.selectorContainer } >
-      {/* <LevelSelectTile />
-      <LevelSelectTile />
-      <LevelSelectTile /> */}
-
-      <Game />
+    <div>
+      <Header />
+      <div className = { styles.selectorContainer } >
+        <LevelSelectTile  />
+      </div>
     </div>
+
   )
 }
 
