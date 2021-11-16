@@ -3,6 +3,7 @@ import styles from './Game.module.css'
 
 const Game = (props) => {
   const [sourceImage, setSourceImage] = useState();
+  const [selectedCoords, setSelectedCoords] = useState();
 
   useEffect(() => {
     setSourceImage(
@@ -30,12 +31,44 @@ const Game = (props) => {
     );
   }, [])
 
+  function onSelect(event){
+    const [x,y] = [event.pageX, event.pageY];
+    const [sourceX, sourceY] = convertCoords(x, y);
 
-  function showSelector() {
+    if (areValidCoords(sourceX, sourceY)){
+      showTargetSelector(x, y);
+      showChoices(x, y);
+      setSelectedCoords([sourceX, sourceY]);
+    }
   }
 
-  function convertCoords(event) {
-    let DOMRectObject = event.target.getBoundingClientRect();
+  function areValidCoords(x, y){
+    return x > 0 && x < 1920 && y > 0 && y < 2715 ? true : false;
+  }
+
+  function showTargetSelector(x, y) {
+    let selector = document.getElementById(styles.targetSelector);
+    selector.style.top = `${y - (document.documentElement.clientWidth * 4/100)}px`;
+    selector.style.left = `${x - (document.documentElement.clientWidth * 4/100)}px`;
+    selector.style.display = 'block';
+    selector.style.position = 'absolute';
+  }
+
+  function showChoices(x, y){
+    let choices = document.getElementById(styles.targetChoices);
+    choices.style.top = `${y - (document.documentElement.clientWidth * 4/100)}px`;
+    choices.style.left = `${x + (document.documentElement.clientWidth * 5/100)}px`;
+    choices.style.display = 'grid';
+    choices.style.position = 'absolute';
+  }
+
+  function onChoiceSelection(){
+    console.log('Selected Coord: ' + selectedCoords);
+  }
+
+
+  function convertCoords(x, y) {
+    let DOMRectObject = document.getElementById(styles.image).getBoundingClientRect();
     const browserImage = {
       width: DOMRectObject.width,
       height: DOMRectObject.height,
@@ -45,10 +78,8 @@ const Game = (props) => {
   
     let widthConvertor = sourceImage.width/browserImage.width;
     let heightConvertor = sourceImage.height/browserImage.height;
-    let clickedX = event.pageX;
-    let clickedY = event.pageY;
 
-    console.log('Clicked: (' + (clickedX - browserImage.xOffset) * widthConvertor + ', ' + (clickedY - browserImage.yOffset) * heightConvertor + ')');
+    return [(x - browserImage.xOffset) * widthConvertor, (y - browserImage.yOffset) * heightConvertor];
   }
 
   function selectorContains(character, clickedCoords){
@@ -57,17 +88,31 @@ const Game = (props) => {
 
 
   return (
-    <div className = {styles.imageContainer}>
-      <img 
-        className = {styles.image}
-        src = './assets/universe-113.jpeg' 
-        alt = 'Universe 113'
-        onClick = {(event) => {
-          convertCoords(event);
-        }}
-      />
-      <div id = {styles.selector} />
+    <div>
+      <div className = {styles.imageContainer}>
+        <img 
+            id = {styles.image}
+            src = './assets/universe-113.jpeg' 
+            alt = 'Universe 113'
+            onClick = {(event) => {
+              onSelect(event);
+            }}
+        />
+          
+        <div id = {styles.targetSelector} 
+          onClick = {(event) => {
+            onSelect(event);
+          }}
+        />
+
+        <div id = {styles.targetChoices}>
+          <input className = 'choice' type = 'submit' value = 'Choice 1' onClick = {() => {onChoiceSelection();}}/>
+          <input className = 'choice' type = 'submit' value = 'Choice 2' onClick = {() => {onChoiceSelection();}}/>
+          <input className = 'choice' type = 'submit' value = 'Choice 3' onClick = {() => {onChoiceSelection();}}/>
+        </div>
+      </div>
     </div>
+    
   )
 }
 
