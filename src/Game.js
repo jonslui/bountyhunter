@@ -1,37 +1,47 @@
 import React, {useState, useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
+import { getFirestore, doc, setDoc, updateDoc, Timestamp} from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getFirebaseConfig } from './firebase-config';
 import styles from './Game.module.css';
 import Header from './components/Header';
 import TargetsDisplay from './components/TargetsDisplay';
 
-const Game = (props) => {
-  const [sourceImage, setSourceImage] = useState();
+const Game = () => {
+  const location = useLocation();
+  const { levelData } = location.state;
   const [selectedCoords, setSelectedCoords] = useState();
+  const [hits, setHits] = useState(0);
+
+  const config = getFirebaseConfig();
+  initializeApp(config);
+  const db = getFirestore();
 
   useEffect(() => {
-    setSourceImage(
-      {
-        width: 1920,
-        height: 2715,
-        targets: [
-          {
-            name: 'Bowser',
-            x: 900,
-            y: 1011,
-          },
-          {
-            name: 'Finn and Jake',
-            x: 278,
-            y: 1387,
-          },
-          {
-            name: 'Guts',
-            x: 919,
-            y: 2453,
-          }
-        ],
+    const fetchData = async () => {
+      try {
+        const userRef = doc(db, 'users', getAuth().currentUser.uid);
+        await setDoc(userRef, {
+          startTime: Timestamp.now().seconds,
+        })
+      } catch (error) {
+        console.error(error);
       }
-    );
-  }, [])
+    }
+    const auth = getAuth();
+    signInAnonymously(auth)
+      .then(() => {
+        fetchData();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorMessage, errorCode);
+      });
+  }, []);
+
+
 
   function onSelect(event){
     const [x,y] = [event.pageX, event.pageY];
@@ -45,7 +55,7 @@ const Game = (props) => {
   }
 
   function areValidCoords(x, y){
-    return x > 0 && x < 1920 && y > 0 && y < 2715 ? true : false;
+    return x > 0 && x < levelData.width && y > 0 && y < levelData.height ? true : false;
   }
 
   function showTargetSelector(x, y) {
@@ -79,19 +89,27 @@ const Game = (props) => {
       yOffset: window.pageYOffset + DOMRectObject.top
     }
   
-    let widthConvertor = sourceImage.width/browserImage.width;
-    let heightConvertor = sourceImage.height/browserImage.height;
+    let widthConvertor = levelData.width/browserImage.width;
+    let heightConvertor = levelData.height/browserImage.height;
 
     return [(x - browserImage.xOffset) * widthConvertor, (y - browserImage.yOffset) * heightConvertor];
   }
 
   function selectorContains(id){
-    if (selectedCoords[0] >= (sourceImage.targets[id].x - 50) 
-      && selectedCoords[0] <= (sourceImage.targets[id].x + 50)
-      && selectedCoords[1] >= (sourceImage.targets[id].y - 50)
-      && selectedCoords[1] <= (sourceImage.targets[id].y) + 50){
+    if (selectedCoords[0] >= (levelData.targets[id].x - 50) 
+      && selectedCoords[0] <= (levelData.targets[id].x + 50)
+      && selectedCoords[1] >= (levelData.targets[id].y - 50)
+      && selectedCoords[1] <= (levelData.targets[id].y) + 50){
 
-      console.log(sourceImage.targets[id].name + ' hit!');
+      setHits(hits +1);
+
+      if (hits + 1 === 3) {
+        updateDoc(doc(db, 'users', getAuth().currentUser.uid), {
+          endTime: Timestamp.now().seconds,
+        });
+      } else {
+        console.log(levelData.targets[id].name + ' hit!');
+      }
     }
   }
 
@@ -100,13 +118,13 @@ const Game = (props) => {
     <div>   
       <Header />
       
-      <TargetsDisplay />
+      <TargetsDisplay targetData = {levelData.targets}/>
 
       <div className = {styles.imageContainer}>
         <img 
             id = {styles.image}
-            src = '/assets/universe-113.jpeg' 
-            alt = 'Universe 113'
+            src = {levelData.src}
+            alt = {levelData.alt}
             onClick = {(event) => {
               onSelect(event);
             }}
@@ -119,11 +137,11 @@ const Game = (props) => {
         />
 
         {
-          sourceImage ? (
+          levelData ? (
             <div id = {styles.targetChoices}>
-              <input className = 'choice' type = 'submit' value = {sourceImage.targets[0].name} onClick = {() => {onChoiceSelection(0);}}/>
-              <input className = 'choice' type = 'submit' value = {sourceImage.targets[1].name} onClick = {() => {onChoiceSelection(1);}}/>
-              <input className = 'choice' type = 'submit' value = {sourceImage.targets[2].name} onClick = {() => {onChoiceSelection(2);}}/>
+              <input className = 'choice' type = 'submit' value = {levelData.targets[0].name} onClick = {() => {onChoiceSelection(0);}}/>
+              <input className = 'choice' type = 'submit' value = {levelData.targets[1].name} onClick = {() => {onChoiceSelection(1);}}/>
+              <input className = 'choice' type = 'submit' value = {levelData.targets[2].name} onClick = {() => {onChoiceSelection(2);}}/>
             </div>
           ) : null
         }

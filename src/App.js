@@ -1,4 +1,5 @@
 import './App.css';
+import React from 'react';
 import Router from './Router';
 
 const App = () => {
@@ -6,7 +7,6 @@ const App = () => {
     <div className = 'App'>
       <Router />
     </div>
-
   );
 }
 
