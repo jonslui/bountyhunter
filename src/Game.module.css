@@ -4,8 +4,7 @@
 
 #image {
   object-fit: contain;
-  margin-top: 2.5vw;
-  width: 95vw;
+  width: 100vw;
   z-index: 0;
 }
 

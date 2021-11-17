@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styles from './Game.module.css';
 import Header from './components/Header';
+import TargetsDisplay from './components/TargetsDisplay';
 
 const Game = (props) => {
   const [sourceImage, setSourceImage] = useState();
@@ -99,14 +100,7 @@ const Game = (props) => {
     <div>   
       <Header />
       
-      <div>
-        Targets:
-          <div>
-            <img className = {styles.characterImage} src = '/assets/Bowser.jpeg' alt = 'Character Image' />
-            <img className = {styles.characterImage} src = '/assets/Finn-and-Jake.jpeg' alt = 'Character Image' />
-            <img className = {styles.characterImage} src = '/assets/Guts.jpeg' alt = 'Character Image' />
-          </div>
-      </div>
+      <TargetsDisplay />
 
       <div className = {styles.imageContainer}>
         <img 
