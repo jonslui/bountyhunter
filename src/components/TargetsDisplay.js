@@ -18,7 +18,7 @@ const TargetsDisplay = (props) => {
 
   return (
       <div id = {styles.targetsContainer} onClick = {() => {showTargets()}}>
-          <div id = {styles.targetsTitle} >Targets ∧</div>
+          <div id = {styles.targetsTitle} >Targets ∨</div>
 
           <div id = {styles.targetImages} style = {{'display' : 'none'}}>
             {

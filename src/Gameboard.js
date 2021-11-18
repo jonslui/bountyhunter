@@ -4,20 +4,19 @@ import { getFirestore, doc, setDoc, updateDoc, Timestamp} from 'firebase/firesto
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFirebaseConfig } from './firebase-config';
-import styles from './Game.module.css';
+import styles from './Gameboard.module.css';
 import Header from './components/Header';
 import TargetsDisplay from './components/TargetsDisplay';
+import GameOver from './components/GameOver';
 
 const Game = () => {
-  const location = useLocation();
-  const { levelData } = location.state;
   const [selectedCoords, setSelectedCoords] = useState();
   const [hits, setHits] = useState(0);
+  const { levelData } = useLocation().state;
 
   const config = getFirebaseConfig();
   initializeApp(config);
   const db = getFirestore();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,6 +28,7 @@ const Game = () => {
         console.error(error);
       }
     }
+
     const auth = getAuth();
     signInAnonymously(auth)
       .then(() => {
@@ -48,38 +48,11 @@ const Game = () => {
     const [sourceX, sourceY] = convertCoords(x, y);
 
     if (areValidCoords(sourceX, sourceY)){
-      showTargetSelector(x, y);
-      showChoices(x, y);
+      showTargetSelectorAndChoices(x, y);
       setSelectedCoords([sourceX, sourceY]);
     }
   }
-
-  function areValidCoords(x, y){
-    return x > 0 && x < levelData.width && y > 0 && y < levelData.height ? true : false;
-  }
-
-  function showTargetSelector(x, y) {
-    let selector = document.getElementById(styles.targetSelector);
-    selector.style.top = `${y - (document.documentElement.clientWidth * 4/100)}px`;
-    selector.style.left = `${x - (document.documentElement.clientWidth * 4/100)}px`;
-    selector.style.display = 'block';
-    selector.style.position = 'absolute';
-  }
-
-  function showChoices(x, y){
-    let choices = document.getElementById(styles.targetChoices);
-    choices.style.top = `${y - (document.documentElement.clientWidth * 4/100)}px`;
-    choices.style.left = `${x + (document.documentElement.clientWidth * 5/100)}px`;
-    choices.style.display = 'grid';
-    choices.style.position = 'absolute';
-  }
-
-  function onChoiceSelection(id){
-    console.log('Selected Coord: ' + selectedCoords);
-    selectorContains(id);
-  }
-
-
+  
   function convertCoords(x, y) {
     let DOMRectObject = document.getElementById(styles.image).getBoundingClientRect();
     const browserImage = {
@@ -88,11 +61,45 @@ const Game = () => {
       xOffset: window.pageXOffset + DOMRectObject.left,
       yOffset: window.pageYOffset + DOMRectObject.top
     }
-  
+
     let widthConvertor = levelData.width/browserImage.width;
     let heightConvertor = levelData.height/browserImage.height;
 
     return [(x - browserImage.xOffset) * widthConvertor, (y - browserImage.yOffset) * heightConvertor];
+  }
+
+  function areValidCoords(x, y){
+    return x > 0 && x < levelData.width && y > 0 && y < levelData.height ? true : false;
+  }
+
+  function showTargetSelectorAndChoices(x, y){
+    let selector = document.getElementById(styles.targetSelector);
+    let choices = document.getElementById(styles.targetChoices);
+
+    selector.style.top = `${y - (document.documentElement.clientWidth * 4/100)}px`;
+    selector.style.left = `${x - (document.documentElement.clientWidth * 4/100)}px`;
+    selector.style.display = 'block';
+    selector.style.position = 'absolute';
+
+    choices.style.top = `${y - (document.documentElement.clientWidth * 4/100)}px`;
+    choices.style.left = `${x + (document.documentElement.clientWidth * 5/100)}px`;
+    choices.style.display = 'grid';
+    choices.style.position = 'absolute';
+  }
+
+  function hideTargetSelectorAndChoices(){
+    let selector = document.getElementById(styles.targetSelector);
+    let choices = document.getElementById(styles.targetChoices);
+
+    selector.style.display = 'none';
+    choices.style.display = 'none';
+  }
+
+
+  function onChoiceSelection(target){
+    if (selectorContains(target)) {
+      hasWon(hits + 1) ? onWin() : setHits(hits + 1);
+    }
   }
 
   function selectorContains(id){
@@ -100,17 +107,25 @@ const Game = () => {
       && selectedCoords[0] <= (levelData.targets[id].x + 50)
       && selectedCoords[1] >= (levelData.targets[id].y - 50)
       && selectedCoords[1] <= (levelData.targets[id].y) + 50){
-
-      setHits(hits +1);
-
-      if (hits + 1 === 3) {
-        updateDoc(doc(db, 'users', getAuth().currentUser.uid), {
-          endTime: Timestamp.now().seconds,
-        });
-      } else {
-        console.log(levelData.targets[id].name + ' hit!');
+        return true;
       }
-    }
+      return false;
+  }
+
+  function hasWon(currentScore){
+    return currentScore === 3 ? true : false;
+  }
+
+  function onWin(){
+    updateDoc(doc(db, 'users', getAuth().currentUser.uid), {
+      endTime: Timestamp.now().seconds,
+    });
+    
+    hideTargetSelectorAndChoices();
+
+    setTimeout(() => {
+      setHits(hits + 1)
+    }, 100)
   }
 
 
@@ -147,6 +162,11 @@ const Game = () => {
         }
           
       </div>
+      
+      {
+        hits === 3 ? <GameOver boardName = {levelData.alt} /> : null
+      }
+      
     </div>
     
   )

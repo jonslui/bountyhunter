@@ -65,7 +65,7 @@ const Main = () => {
       <Header />
       <div className = { styles.selectorContainer } >
         {
-          levels.map((levelData, index) => {
+          levels.map((levelData) => {
             return <LevelSelectTile key = {uniqid()} levelData = {levelData} />
           })
         }
