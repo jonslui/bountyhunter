@@ -1,0 +1,34 @@
+.imageContainer {
+  
+}
+
+#image {
+  object-fit: contain;
+  width: 96vw;
+  z-index: 0;
+}
+
+#targetSelector {
+  display: none;
+  outline: 0.2vw solid;
+  z-index: 1;
+  height: 8vw;
+  width: 8vw;
+  opacity: 50%;
+  border-radius: 50%;
+  background-color: pink;
+}
+
+#targetChoices {
+  display: none;
+  height: 10vw;
+  min-width: 8vw;
+  z-index: 3;
+  opacity: 90%;
+  background-color: rgb(197, 195, 195);
+  outline: 0.1vw solid;
+}
+
+.choice {
+  border: none;
+}
