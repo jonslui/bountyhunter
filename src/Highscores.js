@@ -1,35 +1,111 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { getFirebaseConfig } from './firebase-config';
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getAuth, signInAnonymously } from 'firebase/auth';
+import uniqid from 'uniqid';
 import Header from './components/Header';
-import { useLocation } from 'react-router-dom';
 import styles from './Highscores.module.css';
 
 const Highscores = () => {
-  const { boardName } = useLocation().state
+  const [component, setComponent] = useState();
+  const locationState = useLocation().state;
+  let boardName = locationState ? locationState.boardName : '';
+  
   const config = getFirebaseConfig();
   initializeApp(config);
   const db = getFirestore();
 
   useEffect(() => {
-    // get Highscores from database
+    const auth = getAuth();
+    signInAnonymously(auth)
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorMessage, errorCode);
+      });
+    
+    checkIfBoardSelectedAndSetComponent();
   }, [])
+
+  async function checkIfBoardSelectedAndSetComponent(){
+    if (boardName) {
+      const rankings = await getHighscores();
+      const highscoresComponent = createHighscoresComponent(rankings)
+      setComponent(highscoresComponent);
+    } else {
+      const chooseHighscoresComponent = createChooseHighscoresComponent();
+      setComponent(chooseHighscoresComponent);
+    }
+  }
+
+  async function getHighscores(){
+    try {
+      const docRef = doc(db, 'highscores', 'Universe 113');
+      const docSnap = await getDoc(docRef);
+      const docData = docSnap.data();
+      return docData.rankings;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+  const createHighscoresComponent = (rankings) => {
+    return (
+      <div>
+        <div>{boardName}</div>
+        <div>Highscores</div>
+        <div id = {styles.HighscoresContainer}>
+          <div id = {styles.Highscore}>
+            <div>Place</div>
+            <div>Name</div>
+            <div>Time (seconds)</div>
+          </div>
+          {
+            rankings.map((place, index) => {
+              return (
+                <div id = {styles.Highscore} key = {uniqid()}>
+                  <div>{index + 1}</div>
+                  <div>{place.name}</div>
+                  <div>{place.time}</div>
+                </div>
+              )
+            })
+          }
+        </div>
+      </div>
+    )
+  }
+
+  const createChooseHighscoresComponent = () => {
+    return (
+      <div>
+        <button onClick = {() => {
+          boardName = 'Universe 113';
+          checkIfBoardSelectedAndSetComponent();
+        }}>
+          Universe 113
+        </button>
+
+        <button onClick = {() => {
+          boardName = 'The Loc Nar';
+          checkIfBoardSelectedAndSetComponent();
+        }}>
+          The Loc Nar
+        </button>
+      </div>
+
+    )
+  }
 
   return (
     <div>
       <Header />
-        <div>{boardName}</div>
-        <div>Highscores</div>
-        <div id = {styles.HighscoresContainer}>
-          {
-            <div id = {styles.Highscore}>
-              <div>Place</div>
-              <div>Name</div>
-              <div>Time</div>
-            </div>
-          }
-        </div>
+        {
+          component
+        }
     </div>
   )
 }

@@ -18,7 +18,7 @@ const Game = () => {
   initializeApp(config);
   const db = getFirestore();
   useEffect(() => {
-    const fetchData = async () => {
+    async function setTimestamp() {
       try {
         const userRef = doc(db, 'users', getAuth().currentUser.uid);
         await setDoc(userRef, {
@@ -32,7 +32,7 @@ const Game = () => {
     const auth = getAuth();
     signInAnonymously(auth)
       .then(() => {
-        fetchData();
+        setTimestamp();
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -123,6 +123,7 @@ const Game = () => {
     
     hideTargetSelectorAndChoices();
 
+    // Timeout here gives database time to update before setHits() is called (aka GameOver is rendered)
     setTimeout(() => {
       setHits(hits + 1)
     }, 100)

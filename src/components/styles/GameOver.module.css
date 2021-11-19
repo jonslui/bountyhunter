@@ -1,4 +1,9 @@
 #popUp {
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  bottom: 0;
+  position: fixed;
 }
 
 #pageOverlay {

@@ -12,6 +12,7 @@ const GameOver = (props) => {
   const config = getFirebaseConfig();
   initializeApp(config);
   const db = getFirestore();
+  
   useEffect(() => {
     checkForHighscoreAndSetState();
   }, []);
@@ -36,7 +37,13 @@ const GameOver = (props) => {
         <div>{numberOfSeconds} Seconds!</div>
         <p>Enter your name to save your score</p>
         <input id = { styles.nameInput } type = 'text' placeholder = 'Type your name here!'/>
-        <button onClick = {() => {onSubmitScore()}}>Submit</button> 
+        <button onClick = {() => {onSubmitScore()}}>
+          <Link 
+            to = '/wheres-waldo/highscores' 
+            state = {{ boardName: props.boardName }}>
+            Submit
+          </Link>
+        </button> 
       </div>
     )
   }
@@ -47,7 +54,11 @@ const GameOver = (props) => {
         <header>Congratulations!</header>
         <div>{numberOfSeconds} Seconds!</div>
         <button>
-          <Link to = '/wheres-waldo/highscores'>View Highscores</Link>
+          <Link 
+            to = '/wheres-waldo/highscores' 
+            state = {{ boardName: props.boardName }}>
+            View Highscores
+          </Link>
         </button> 
         <button>
           <Link to = '/wheres-waldo/'>Home </Link>
