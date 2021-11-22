@@ -8,10 +8,12 @@ import styles from './Gameboard.module.css';
 import Header from './components/Header';
 import TargetsDisplay from './components/TargetsDisplay';
 import GameOver from './components/GameOver';
+import uniqid from 'uniqid';
 
 const Game = () => {
   const [selectedCoords, setSelectedCoords] = useState();
-  const [hits, setHits] = useState(0);
+  const [hitTargets, setHitTargets] = useState([]);
+  const [isGameOver, setIsGameOver] = useState(false);
   const { levelData } = useLocation().state;
 
   const config = getFirebaseConfig();
@@ -96,24 +98,23 @@ const Game = () => {
   }
 
 
-  function onChoiceSelection(target){
-    if (selectorContains(target)) {
-      hasWon(hits + 1) ? onWin() : setHits(hits + 1);
+  function onChoiceSelection(targetIndex){
+    const target = levelData.targets[targetIndex];
+    if (selectorContains(target) && !hitTargets.includes(target.name)) {
+      hasWon() ? onWin() : setHitTargets(hitTargets.concat(target.name));
     }
   }
 
-  function selectorContains(id){
-    if (selectedCoords[0] >= (levelData.targets[id].x - 50) 
-      && selectedCoords[0] <= (levelData.targets[id].x + 50)
-      && selectedCoords[1] >= (levelData.targets[id].y - 50)
-      && selectedCoords[1] <= (levelData.targets[id].y) + 50){
+  function selectorContains(target){
+    if (selectedCoords[0] >= (target.x - 50) && selectedCoords[0] <= (target.x + 50)
+      && selectedCoords[1] >= (target.y - 50) && selectedCoords[1] <= (target.y + 50)){
         return true;
       }
       return false;
   }
 
-  function hasWon(currentScore){
-    return currentScore === 3 ? true : false;
+  function hasWon(){
+    return hitTargets.length + 1 === levelData.targets.length ? true : false;
   }
 
   function onWin(){
@@ -125,52 +126,59 @@ const Game = () => {
 
     // Timeout here gives database time to update before setHits() is called (aka GameOver is rendered)
     setTimeout(() => {
-      setHits(hits + 1)
+      setIsGameOver(true);
     }, 100)
   }
 
 
   return (
-    <div>   
-      <Header />
-      
-      <TargetsDisplay targetData = {levelData.targets}/>
+      <div>   
+        <Header inGame = {true} isGameOver = {isGameOver} />
 
-      <div className = {styles.imageContainer}>
-        <img 
-            id = {styles.image}
-            src = {levelData.src}
-            alt = {levelData.alt}
+        <TargetsDisplay targetData = {levelData.targets} hitTargets = {hitTargets}/>
+
+        <div className = {styles.imageContainer}>
+          <img 
+              id = {styles.image}
+              src = {levelData.src}
+              alt = {levelData.alt}
+              onClick = {(event) => {
+                onSelect(event);
+              }}
+          />
+          <div id = {styles.targetSelector} 
             onClick = {(event) => {
               onSelect(event);
             }}
-        />
+          />
+          {
+            levelData ? (
+              <div id = {styles.targetChoices}>
+                {
+                  levelData.targets.map((target, index) => {
+                    return (
+                      <input key = {uniqid()} className = 'choice' type = 'submit' value = {target.name} 
+                        onClick = {() => {
+                          onChoiceSelection(index);
+                        }
+                      }/>
+                    )
+                  })
+                }
+              </div>
+            ) : null
+          }
           
-        <div id = {styles.targetSelector} 
-          onClick = {(event) => {
-            onSelect(event);
-          }}
-        />
+        </div>
+        
+        <div id = {styles.hit}>Hit!</div>
+        <div id = {styles.miss}>Miss!</div>
 
         {
-          levelData ? (
-            <div id = {styles.targetChoices}>
-              <input className = 'choice' type = 'submit' value = {levelData.targets[0].name} onClick = {() => {onChoiceSelection(0);}}/>
-              <input className = 'choice' type = 'submit' value = {levelData.targets[1].name} onClick = {() => {onChoiceSelection(1);}}/>
-              <input className = 'choice' type = 'submit' value = {levelData.targets[2].name} onClick = {() => {onChoiceSelection(2);}}/>
-            </div>
-          ) : null
+          isGameOver ? <GameOver boardName = {levelData.alt} /> : null
         }
-          
       </div>
-      
-      {
-        hits === 3 ? <GameOver boardName = {levelData.alt} /> : null
-      }
-      
-    </div>
-    
-  )
+    )
 }
 
 export default Game;

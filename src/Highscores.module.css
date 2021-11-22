@@ -1,9 +1,36 @@
-#HighscoresContainer {
+.Scoreboard {
+  margin-top: 3vh;
   display: grid;
-  gap: 3vh;
+  gap: 1vh;
 }
 
-#Highscore {
+.title {
+  font-size: calc(14px + 1vmin);
+}
+
+.boardName {
+  font-size: calc(12px + 1vmin);
+
+}
+
+#HighscoresContainer { 
+  display: grid;
+}
+.Labels {
+  border-bottom: 1px solid black;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+.Highscore {
+  border-bottom: 1px solid black;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.Highscore:nth-child(2n) {
+  background-color: lightgray;
 }

@@ -1,5 +1,4 @@
 .selectorContainer {
-  /* display: flex;
-  flex-wrap: wrap; */
-  margin: auto;  
+  display: flex;
+  flex-wrap: wrap;
 }

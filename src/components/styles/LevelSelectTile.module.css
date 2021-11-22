@@ -1,0 +1,23 @@
+.levelSelectTile {
+  display: grid;
+  column-gap: auto;
+  margin: auto;
+  margin-top: 3vh;
+  min-width: 300px;
+}
+.levelSelectTile:hover{
+  opacity: 0.9;
+}
+
+.levelPreviewImageContainer {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+.levelPreviewImage {
+  width: 45vw;
+  object-fit: contain;
+  max-height: 80vh;
+}
+
+.levelSelectButton {
+}

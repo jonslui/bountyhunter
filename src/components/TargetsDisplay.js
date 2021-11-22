@@ -22,9 +22,9 @@ const TargetsDisplay = (props) => {
 
           <div id = {styles.targetImages} style = {{'display' : 'none'}}>
             {
-              props.targetData.map((target) => {
+              props.targetData.map((target, index) => {
                 return (
-                  <img className = {styles.targetImage} src = {target.src} alt = {target.name} key = {uniqid()}/>
+                    <img id = {'target' + index} className = {styles.targetImage} src = {target.src} alt = {target.name} key = {uniqid()}/>
                 )
               })
             }

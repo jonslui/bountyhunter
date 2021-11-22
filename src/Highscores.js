@@ -35,14 +35,14 @@ const Highscores = () => {
       const highscoresComponent = createHighscoresComponent(rankings)
       setComponent(highscoresComponent);
     } else {
-      const chooseHighscoresComponent = createChooseHighscoresComponent();
+      const chooseHighscoresComponent = createChooseHighscoresToViewComponent();
       setComponent(chooseHighscoresComponent);
     }
   }
 
   async function getHighscores(){
     try {
-      const docRef = doc(db, 'highscores', 'Universe 113');
+      const docRef = doc(db, 'highscores', boardName);
       const docSnap = await getDoc(docRef);
       const docData = docSnap.data();
       return docData.rankings;
@@ -54,11 +54,11 @@ const Highscores = () => {
 
   const createHighscoresComponent = (rankings) => {
     return (
-      <div>
-        <div>{boardName}</div>
-        <div>Highscores</div>
+      <div className = {styles.Scoreboard}>
+        <div className = {styles.title} >Highscores</div>
+        <div className = {styles.boardName} >{boardName}</div>
         <div id = {styles.HighscoresContainer}>
-          <div id = {styles.Highscore}>
+          <div className = {styles.Labels}>
             <div>Place</div>
             <div>Name</div>
             <div>Time (seconds)</div>
@@ -66,7 +66,7 @@ const Highscores = () => {
           {
             rankings.map((place, index) => {
               return (
-                <div id = {styles.Highscore} key = {uniqid()}>
+                <div className = {styles.Highscore} key = {uniqid()}>
                   <div>{index + 1}</div>
                   <div>{place.name}</div>
                   <div>{place.time}</div>
@@ -79,7 +79,7 @@ const Highscores = () => {
     )
   }
 
-  const createChooseHighscoresComponent = () => {
+  const createChooseHighscoresToViewComponent = () => {
     return (
       <div>
         <button onClick = {() => {
@@ -96,7 +96,6 @@ const Highscores = () => {
           The Loc Nar
         </button>
       </div>
-
     )
   }
 

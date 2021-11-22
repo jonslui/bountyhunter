@@ -9,10 +9,11 @@ import styles from './styles/GameOver.module.css';
 const GameOver = (props) => {
   const [popUp, setPopUp] = useState();
 
+
   const config = getFirebaseConfig();
   initializeApp(config);
   const db = getFirestore();
-  
+
   useEffect(() => {
     checkForHighscoreAndSetState();
   }, []);
@@ -27,6 +28,28 @@ const GameOver = (props) => {
       setPopUp(highScorePopUp(playerTime));      
     } else {
       setPopUp(noHighScorePopUp(playerTime));
+    }
+  }
+
+  async function getPlayerTime() {
+    try {
+      const userRef = doc(db, 'users', getAuth().currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      const userData = userSnap.data();
+      return (userData.endTime - userData.startTime);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function getRankings() {
+    try {
+      const docRef = doc(db, 'highscores', props.boardName);
+      const docSnap = await getDoc(docRef);
+      const docData = docSnap.data();
+      return docData.rankings;
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -66,30 +89,6 @@ const GameOver = (props) => {
       </div>
     )
   }
-
-
-  async function getPlayerTime() {
-    try {
-      const userRef = doc(db, 'users', getAuth().currentUser.uid);
-      const userSnap = await getDoc(userRef);
-      const userData = userSnap.data();
-      return (userData.endTime - userData.startTime);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  async function getRankings() {
-    try {
-      const docRef = doc(db, 'highscores', props.boardName);
-      const docSnap = await getDoc(docRef);
-      const docData = docSnap.data();
-      return docData.rankings;
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   
   function onSubmitScore() {
     const name = document.getElementById(styles.nameInput).value;
@@ -99,7 +98,6 @@ const GameOver = (props) => {
       updateHighscores('Anonymous')
     }
   }
-
 
   async function updateHighscores(name) {
     try {
