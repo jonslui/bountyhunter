@@ -32,3 +32,21 @@
 .choice {
   border: none;
 }
+
+#hit {
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+  background-color: lightgreen;
+  opacity: 0.6;
+}
+
+#miss {
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+  background-color: red;
+  opacity: 0.5;
+}

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { getFirestore, doc, setDoc, updateDoc, Timestamp} from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
@@ -14,10 +14,7 @@ const Game = () => {
   const [selectedCoords, setSelectedCoords] = useState();
   const [hitTargets, setHitTargets] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
-  // const state = useLocation().state;
-  // const levelData = state ? state.levelData : null;
   const { levelData } = useLocation().state;
-  // let navigate = useNavigate();
 
   const config = getFirebaseConfig();
   initializeApp(config);
@@ -95,7 +92,10 @@ const Game = () => {
   function onChoiceSelection(targetIndex){
     const target = levelData.targets[targetIndex];
     if (selectorContains(target) && !hitTargets.includes(target.name)) {
+      showFeedback(true);
       hasWon() ? onWin() : setHitTargets(hitTargets.concat(target.name));
+    } else {
+      showFeedback(false);
     }
     hideTargetSelectorAndChoices();
   }
@@ -116,6 +116,14 @@ const Game = () => {
       return false;
   }
 
+  function showFeedback(isCorrectChoice){
+    const resultDisplay = isCorrectChoice ? document.getElementById(styles.hit) : document.getElementById(styles.miss);
+    resultDisplay.style.display = 'block';
+    setTimeout(() => {
+      resultDisplay.style.display = 'none';
+    }, 200);
+  }
+
   function hasWon(){
     return hitTargets.length + 1 === levelData.targets.length ? true : false;
   }
@@ -123,14 +131,12 @@ const Game = () => {
   function onWin(){
     updateDoc(doc(db, 'users', getAuth().currentUser.uid), {
       endTime: Timestamp.now().seconds,
-    });
-    
+    })
     hideTargetSelectorAndChoices();
-
-    // Timeout here gives database time to update before setHits() is called (aka GameOver is rendered)
+    
     setTimeout(() => {
-      setIsGameOver(true);
-    }, 100)
+      setIsGameOver(true)
+    }, 200)
   }
 
 
@@ -149,23 +155,26 @@ const Game = () => {
                 onSelect(event);
               }}
           />
+
           <div id = {styles.targetSelector} 
             onClick = {(event) => {
               onSelect(event);
             }}
           />
+
           {
             levelData ? (
               <div id = {styles.targetChoices}>
                 {
                   levelData.targets.map((target, index) => {
                     return (
-                      <input key = {uniqid()} className = 'choice' type = 'submit' value = {target.name} 
-                        onClick = {() => {
+                      hitTargets.includes(target.name) ? null : (
+                        <input key = {uniqid()} className = 'choice' type = 'submit' value = {target.name} 
+                          onClick = {() => {
                           onChoiceSelection(index);
-                        }
-                      }/>
-                    )
+                        }}/>
+                      )
+                    ) 
                   })
                 }
               </div>
@@ -177,6 +186,9 @@ const Game = () => {
         {
           isGameOver ? <GameOver boardName = {levelData.alt} /> : null
         }
+
+        <div id = {styles.hit} style = {{'display': 'none'}}/>
+        <div id = {styles.miss} style = {{'display': 'none'}}/>
       </div>
     )
 }
