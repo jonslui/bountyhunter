@@ -10,8 +10,8 @@ import styles from './Highscores.module.css';
 
 const Highscores = () => {
   const [component, setComponent] = useState();
-  const locationState = useLocation().state;
-  let boardName = locationState ? locationState.boardName : '';
+  const state = useLocation().state;
+  let boardName = state ? state.boardName : '';
   
   const config = getFirebaseConfig();
   initializeApp(config);

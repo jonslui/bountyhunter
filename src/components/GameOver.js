@@ -3,11 +3,12 @@ import { getFirebaseConfig } from '../firebase-config';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './styles/GameOver.module.css';
 
 const GameOver = (props) => {
   const [popUp, setPopUp] = useState();
+  let navigate = useNavigate();
 
 
   const config = getFirebaseConfig();
@@ -60,13 +61,10 @@ const GameOver = (props) => {
         <div>{numberOfSeconds} Seconds!</div>
         <p>Enter your name to save your score</p>
         <input id = { styles.nameInput } type = 'text' placeholder = 'Type your name here!'/>
-        <button onClick = {() => {onSubmitScore()}}>
-          <Link 
-            to = '/wheres-waldo/highscores' 
-            state = {{ boardName: props.boardName }}>
-            Submit
-          </Link>
-        </button> 
+        <button onClick = {() => {
+          onSubmitScore();
+          navigate('/wheres-waldo/highscores', { state: {'boardName': props.boardName}})}
+        }>Submit</button> 
       </div>
     )
   }
@@ -76,16 +74,13 @@ const GameOver = (props) => {
       <div id = {styles.container}>
         <header>Congratulations!</header>
         <div>{numberOfSeconds} Seconds!</div>
-        <button>
-          <Link 
-            to = '/wheres-waldo/highscores' 
-            state = {{ boardName: props.boardName }}>
-            View Highscores
-          </Link>
-        </button> 
-        <button>
-          <Link to = '/wheres-waldo/'>Home </Link>
-        </button> 
+        <button onClick = {() => {
+          navigate('/wheres-waldo/highscores', { state: {'boardName': props.boardName}})}
+        }>View Highscores</button> 
+
+        <button onClick = {() => {
+          navigate('/wheres-waldo');
+        }}>Home</button> 
       </div>
     )
   }

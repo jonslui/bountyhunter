@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getFirestore, doc, setDoc, updateDoc, Timestamp} from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
@@ -14,7 +14,10 @@ const Game = () => {
   const [selectedCoords, setSelectedCoords] = useState();
   const [hitTargets, setHitTargets] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  // const state = useLocation().state;
+  // const levelData = state ? state.levelData : null;
   const { levelData } = useLocation().state;
+  // let navigate = useNavigate();
 
   const config = getFirebaseConfig();
   initializeApp(config);
@@ -89,20 +92,20 @@ const Game = () => {
     choices.style.position = 'absolute';
   }
 
+  function onChoiceSelection(targetIndex){
+    const target = levelData.targets[targetIndex];
+    if (selectorContains(target) && !hitTargets.includes(target.name)) {
+      hasWon() ? onWin() : setHitTargets(hitTargets.concat(target.name));
+    }
+    hideTargetSelectorAndChoices();
+  }
+
   function hideTargetSelectorAndChoices(){
     let selector = document.getElementById(styles.targetSelector);
     let choices = document.getElementById(styles.targetChoices);
 
     selector.style.display = 'none';
     choices.style.display = 'none';
-  }
-
-
-  function onChoiceSelection(targetIndex){
-    const target = levelData.targets[targetIndex];
-    if (selectorContains(target) && !hitTargets.includes(target.name)) {
-      hasWon() ? onWin() : setHitTargets(hitTargets.concat(target.name));
-    }
   }
 
   function selectorContains(target){
@@ -132,7 +135,7 @@ const Game = () => {
 
 
   return (
-      <div>   
+      <div>                 
         <Header inGame = {true} isGameOver = {isGameOver} />
 
         <TargetsDisplay targetData = {levelData.targets} hitTargets = {hitTargets}/>
@@ -170,10 +173,7 @@ const Game = () => {
           }
           
         </div>
-        
-        <div id = {styles.hit}>Hit!</div>
-        <div id = {styles.miss}>Miss!</div>
-
+      
         {
           isGameOver ? <GameOver boardName = {levelData.alt} /> : null
         }

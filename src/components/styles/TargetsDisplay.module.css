@@ -1,8 +1,4 @@
-#targetImagesContainer {
-
-}
-
-#targetsTitle {
+#dropdownTitle {
   margin: 1vw;
   font-size: calc(10px + 1.5vmin);
   color: #282c34;
@@ -12,7 +8,20 @@
   margin-bottom: 2vw;
 }
 
+#targetImagesContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.targetInfoContainer {
+  width: 30vw;
+  margin: auto;
+}
+
 .targetImage {
   object-fit: contain;
-  max-width: 31.5vw;
+}
+
+.targetName {
+
 }

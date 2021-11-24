@@ -39,22 +39,22 @@ const Main = () => {
       height: 8422,
       targets: [
         {
-          name: 'TBD',
-          src: '',
-          x: 0,
-          y: 0,
+          name: 'Cat Bus',
+          src: '/assets/Catbus.jpeg',
+          x: 285,
+          y: 6525,
         },
         {
-          name: 'TBD',
-          src: '',
-          x: 0,
-          y: 0,
+          name: 'Canti',
+          src: '/assets/Canti.jpeg',
+          x: 860,
+          y: 8262,
         },
         {
-          name: 'TBD',
-          src: '',
-          x: 0,
-          y: 0,
+          name: 'Jerry',
+          src: '/assets/Jerry.jpeg',
+          x: 1720,
+          y: 8000,
         }
       ]
     }

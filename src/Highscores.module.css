@@ -32,5 +32,5 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 .Highscore:nth-child(2n) {
-  background-color: lightgray;
+  background-color: #e7e7e7;
 }
