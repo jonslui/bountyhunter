@@ -34,3 +34,15 @@
 .Highscore:nth-child(2n) {
   background-color: #e7e7e7;
 }
+
+.buttonContainer {
+  display: grid;
+  gap: 5vh;
+  width: 100vw;
+}
+.selectButton {
+  width: 80vw;
+  margin: auto;
+  height: 20vh;
+  font-size: calc(12px + 1vmin);
+}

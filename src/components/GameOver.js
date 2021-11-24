@@ -63,8 +63,10 @@ const GameOver = (props) => {
         <input id = { styles.nameInput } type = 'text' placeholder = 'Type your name here!'/>
         <button onClick = {() => {
           onSubmitScore();
-          navigate('/wheres-waldo/highscores', { state: {'boardName': props.boardName}})}
-        }>Submit</button> 
+          setTimeout(() => {
+            navigate('/wheres-waldo/highscores', { state: {'boardName': props.boardName}})
+          }, 100)
+        }}>Submit</button> 
       </div>
     )
   }

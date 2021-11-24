@@ -82,19 +82,23 @@ const Highscores = () => {
   const createChooseHighscoresToViewComponent = () => {
     return (
       <div>
-        <button onClick = {() => {
-          boardName = 'Universe 113';
-          checkIfBoardSelectedAndSetComponent();
-        }}>
-          Universe 113
-        </button>
+        <div className = {styles.title} style = {{'margin' : '2vh'}}>Highscores</div>
 
-        <button onClick = {() => {
-          boardName = 'The Loc Nar';
-          checkIfBoardSelectedAndSetComponent();
-        }}>
-          The Loc Nar
-        </button>
+        <div className = {styles.buttonContainer}>
+          <button className = {styles.selectButton} onClick = {() => {
+            boardName = 'Universe 113';
+            checkIfBoardSelectedAndSetComponent();
+          }}>
+            Universe 113
+          </button>
+
+          <button className = {styles.selectButton} onClick = {() => {
+            boardName = 'The Loc Nar';
+            checkIfBoardSelectedAndSetComponent();
+          }}>
+            The Loc Nar
+          </button>
+        </div>
       </div>
     )
   }
