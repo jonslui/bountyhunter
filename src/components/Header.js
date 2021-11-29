@@ -16,6 +16,9 @@ const Header = (props) => {
       timerFunction();
     }
 
+    if (props.isGameOver) {
+      setTimeInSeconds();
+    }
     return () => {
       clearTimeout(timerFunction);
     }

@@ -54,6 +54,7 @@ const GameOver = (props) => {
     }
   }
 
+  // setTimeout here gives database time update Highscores before navigating to highscores page
   const highScorePopUp = (numberOfSeconds) => {
     return (
       <div id = {styles.container}>

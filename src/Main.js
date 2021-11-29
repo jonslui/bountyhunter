@@ -51,8 +51,8 @@ const Main = () => {
           y: 8262,
         },
         {
-          name: 'Jerry',
-          src: '/assets/Jerry.jpeg',
+          name: 'Tom',
+          src: '/assets/Tom.jpeg',
           x: 1720,
           y: 8000,
         }
