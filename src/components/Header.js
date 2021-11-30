@@ -27,7 +27,7 @@ const Header = (props) => {
 
   return (
       <header className= {styles.header}>
-        <Link to = '/wheres-waldo/' style = {{color: '#FFF'}}>Bounty Hunter</Link>
+        <Link to = '/bountyhunter/' style = {{color: '#FFF'}}>Bounty Hunter</Link>
         
         {
           props.inGame ? (

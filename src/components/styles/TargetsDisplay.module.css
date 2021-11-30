@@ -19,6 +19,7 @@
 }
 
 .targetImage {
+  width: 30vw;
   object-fit: contain;
 }
 

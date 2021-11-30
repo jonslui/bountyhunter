@@ -5,7 +5,7 @@ import styles from './styles/LevelSelectTile.module.css';
 const LevelSelectTile = (props) => {
   return (
     <div className = {styles.levelSelectTile}>
-        <Link to = '/wheres-waldo/game' state = {{ levelData: props.levelData}}>
+        <Link to = '/bountyhunter/game' state = {{ levelData: props.levelData}}>
           <div className = {styles.levelTitle}>
             {props.levelData.alt}
           </div>
@@ -15,11 +15,11 @@ const LevelSelectTile = (props) => {
           </div>
         </Link>
       
-        <Link to = '/wheres-waldo/game' state = {{ levelData: props.levelData}}>
+        <Link to = '/bountyhunter/game' state = {{ levelData: props.levelData}}>
           <button className = {styles.levelSelectButton}>Play Game</button>
         </Link>
 
-        <Link to = '/wheres-waldo/highscores' state = {{ boardName: props.levelData.alt}}>
+        <Link to = '/bountyhunter/highscores' state = {{ boardName: props.levelData.alt}}>
           <button className = {styles.levelSelectButton}>Highscores</button>
         </Link>
     </div>

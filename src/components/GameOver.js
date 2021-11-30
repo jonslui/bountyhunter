@@ -65,7 +65,7 @@ const GameOver = (props) => {
         <button onClick = {() => {
           onSubmitScore();
           setTimeout(() => {
-            navigate('/wheres-waldo/highscores', { state: {'boardName': props.boardName}})
+            navigate('/bountyhunter/highscores', { state: {'boardName': props.boardName}})
           }, 100)
         }}>Submit</button> 
       </div>
@@ -78,11 +78,11 @@ const GameOver = (props) => {
         <header>Congratulations!</header>
         <div>{numberOfSeconds} Seconds!</div>
         <button onClick = {() => {
-          navigate('/wheres-waldo/highscores', { state: {'boardName': props.boardName}})}
+          navigate('/bountyhunter/highscores', { state: {'boardName': props.boardName}})}
         }>View Highscores</button> 
 
         <button onClick = {() => {
-          navigate('/wheres-waldo');
+          navigate('/bountyhunter/');
         }}>Home</button> 
       </div>
     )
@@ -129,7 +129,7 @@ const GameOver = (props) => {
 
   return (
     <div>
-      <Link to = '/wheres-waldo/'>
+      <Link to = '/bountyhunter/'>
         <div id = {styles.pageOverlay}/>
       </Link>
 

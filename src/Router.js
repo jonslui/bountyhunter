@@ -7,9 +7,9 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path = '/wheres-waldo/game' element = {<Gameboard />} />
-        <Route exact path = '/wheres-waldo/highscores' element = {<Highscores />} />
-        <Route exact path = '/wheres-waldo/' element = {<Main />} />
+        <Route exact path = '/bountyhunter/game' element = {<Gameboard />} />
+        <Route exact path = '/bountyhunter/highscores' element = {<Highscores />} />
+        <Route exact path = '/bountyhunter/' element = {<Main />} />
       </Routes>
     </BrowserRouter>
   )

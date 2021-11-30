@@ -35,9 +35,9 @@ const Game = () => {
       }
     }
 
-    // If user enters this '/wheres-waldo/game into search bar, return them to homepage so they can choose a level
+    // id no leveldata return to level select screen
     if (!levelData){
-      navigate('/wheres-waldo/');
+      navigate('/bountyhunter/');
     }
 
     const auth = getAuth();
