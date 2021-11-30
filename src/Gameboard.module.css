@@ -14,7 +14,7 @@
   z-index: 1;
   height: 8vw;
   width: 8vw;
-  opacity: 50%;
+  opacity: 0.5;
   border-radius: 50%;
   background-color: pink;
 }
@@ -24,8 +24,8 @@
   height: 10vw;
   min-width: 8vw;
   z-index: 3;
-  opacity: 90%;
-  background-color: rgb(197, 195, 195);
+  /* opacity: .9; */
+  /* background-color: rgb(197, 195, 195); */
   outline: 0.1vw solid;
 }
 

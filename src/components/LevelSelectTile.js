@@ -9,9 +9,9 @@ const LevelSelectTile = (props) => {
           <div className = {styles.levelTitle}>
             {props.levelData.alt}
           </div>
-      
+
           <div className = {styles.levelPreviewImageContainer}>
-              <img className = {styles.levelPreviewImage} src = { props.levelData.alt === 'The Loc Nar' ? '/assets/the-loc-nar-preview.jpeg' : props.levelData.src} alt = {props.levelData.alt}/>
+              <img className = {styles.levelPreviewImage} src = { props.levelData.alt === 'The Loc Nar' ? './assets/the-loc-nar-preview.jpeg' : props.levelData.src} alt = {props.levelData.alt}/>
           </div>
         </Link>
       
