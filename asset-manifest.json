@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/bountyhunter/static/css/main.f85e3980.chunk.css",
+    "main.css": "/bountyhunter/static/css/main.370de429.chunk.css",
     "main.js": "/bountyhunter/static/js/main.314074a6.chunk.js",
     "main.js.map": "/bountyhunter/static/js/main.314074a6.chunk.js.map",
     "runtime-main.js": "/bountyhunter/static/js/runtime-main.b74ab019.js",
@@ -8,13 +8,13 @@
     "static/js/2.111eb377.chunk.js": "/bountyhunter/static/js/2.111eb377.chunk.js",
     "static/js/2.111eb377.chunk.js.map": "/bountyhunter/static/js/2.111eb377.chunk.js.map",
     "index.html": "/bountyhunter/index.html",
-    "static/css/main.f85e3980.chunk.css.map": "/bountyhunter/static/css/main.f85e3980.chunk.css.map",
+    "static/css/main.370de429.chunk.css.map": "/bountyhunter/static/css/main.370de429.chunk.css.map",
     "static/js/2.111eb377.chunk.js.LICENSE.txt": "/bountyhunter/static/js/2.111eb377.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b74ab019.js",
     "static/js/2.111eb377.chunk.js",
-    "static/css/main.f85e3980.chunk.css",
+    "static/css/main.370de429.chunk.css",
     "static/js/main.314074a6.chunk.js"
   ]
 }
