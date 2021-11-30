@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/bountyhunter/static/css/main.3ee29eae.chunk.css",
-    "main.js": "/bountyhunter/static/js/main.0780a916.chunk.js",
-    "main.js.map": "/bountyhunter/static/js/main.0780a916.chunk.js.map",
+    "main.js": "/bountyhunter/static/js/main.422de550.chunk.js",
+    "main.js.map": "/bountyhunter/static/js/main.422de550.chunk.js.map",
     "runtime-main.js": "/bountyhunter/static/js/runtime-main.b74ab019.js",
     "runtime-main.js.map": "/bountyhunter/static/js/runtime-main.b74ab019.js.map",
     "static/js/2.8d05ffdc.chunk.js": "/bountyhunter/static/js/2.8d05ffdc.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.b74ab019.js",
     "static/js/2.8d05ffdc.chunk.js",
     "static/css/main.3ee29eae.chunk.css",
-    "static/js/main.0780a916.chunk.js"
+    "static/js/main.422de550.chunk.js"
   ]
 }
