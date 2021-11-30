@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/bountyhunter/static/css/main.3ee29eae.chunk.css",
+    "main.js": "/bountyhunter/static/js/main.0780a916.chunk.js",
+    "main.js.map": "/bountyhunter/static/js/main.0780a916.chunk.js.map",
+    "runtime-main.js": "/bountyhunter/static/js/runtime-main.b74ab019.js",
+    "runtime-main.js.map": "/bountyhunter/static/js/runtime-main.b74ab019.js.map",
+    "static/js/2.8d05ffdc.chunk.js": "/bountyhunter/static/js/2.8d05ffdc.chunk.js",
+    "static/js/2.8d05ffdc.chunk.js.map": "/bountyhunter/static/js/2.8d05ffdc.chunk.js.map",
+    "index.html": "/bountyhunter/index.html",
+    "static/css/main.3ee29eae.chunk.css.map": "/bountyhunter/static/css/main.3ee29eae.chunk.css.map",
+    "static/js/2.8d05ffdc.chunk.js.LICENSE.txt": "/bountyhunter/static/js/2.8d05ffdc.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b74ab019.js",
+    "static/js/2.8d05ffdc.chunk.js",
+    "static/css/main.3ee29eae.chunk.css",
+    "static/js/main.0780a916.chunk.js"
+  ]
+}
