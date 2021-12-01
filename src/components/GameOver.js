@@ -23,7 +23,7 @@ const GameOver = (props) => {
   async function checkForHighscoreAndSetState(){
     const playerTime = await getPlayerTime();
     const rankings = await getRankings()
-    const lastPlaceTime = rankings.at(-1).time;
+    const lastPlaceTime = rankings[rankings.length - 1].time;
 
     if (playerTime < lastPlaceTime) {
       setPopUp(highScorePopUp(playerTime));      
@@ -66,7 +66,7 @@ const GameOver = (props) => {
           onSubmitScore();
           setTimeout(() => {
             navigate('/bountyhunter/highscores', { state: {'boardName': props.boardName}})
-          }, 100)
+          }, 500)
         }}>Submit</button> 
       </div>
     )

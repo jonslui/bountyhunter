@@ -10,7 +10,6 @@
 
 #targetSelector {
   display: none;
-  outline: 0.2vw solid;
   z-index: 1;
   height: 8vw;
   width: 8vw;
@@ -24,13 +23,12 @@
   height: 10vw;
   min-width: 8vw;
   z-index: 3;
-  /* opacity: .9; */
-  /* background-color: rgb(197, 195, 195); */
-  outline: 0.1vw solid;
 }
 
 .choice {
+  background-color: #DBD8E3;
   border: none;
+  border-radius: 0%;
 }
 
 #hit {

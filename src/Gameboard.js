@@ -189,7 +189,7 @@ const Game = () => {
                           levelData.targets.map((target, index) => {
                             return (
                               hitTargets.includes(target.name) ? null : (
-                                <input key = {uniqid()} className = 'choice' type = 'submit' value = {target.name} 
+                                <input key = {uniqid()} className = {styles.choice} type = 'submit' value = {target.name} 
                                   onClick = {() => {
                                   onChoiceSelection(index);
                                 }}/>
