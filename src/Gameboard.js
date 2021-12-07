@@ -14,6 +14,7 @@ const Game = () => {
   const [selectedCoords, setSelectedCoords] = useState();
   const [hitTargets, setHitTargets] = useState([]);
   const [isGameOver, setIsGameOver] = useState(false);
+
   let navigate = useNavigate();
   const location = useLocation();
   const levelData = location.state ? location.state.levelData : '';
@@ -35,7 +36,7 @@ const Game = () => {
       }
     }
 
-    // id no leveldata return to level select screen
+    // if no levelData return to level select screen (levelData is passed by selecting a level from that screen)
     if (!levelData){
       navigate('/bountyhunter/');
     }

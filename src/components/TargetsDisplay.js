@@ -18,9 +18,9 @@ const TargetsDisplay = (props) => {
 
   return (
       <div id = {styles.dropDownContainer} onClick = {() => {showTargets()}}>
-          <div id = {styles.dropdownTitle} >Targets ∨</div>
+          <div id = {styles.dropdownTitle} >Targets ∧</div>
 
-          <div id = {styles.targetImages} style = {{'display' : 'none'}}>
+          <div id = {styles.targetImages} style = {{'display' : 'block'}}>
             <div id = {styles.targetImagesContainer}>
               {
                 props.targetData.map((target, index) => {

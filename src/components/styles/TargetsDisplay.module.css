@@ -20,6 +20,7 @@
 
 .targetImage {
   width: 30vw;
+  max-height: 20vh;
   object-fit: contain;
 }
 
